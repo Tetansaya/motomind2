@@ -73,6 +73,28 @@ const Home = () => {
         </div>
       </div>
 
+      
+
+      <div className="carousel fade-in">
+        <button className="carousel-button left" onClick={prevImage}>
+          ‹
+        </button>
+        {images.map((image, index) => (
+          <img
+            key={index}
+            src={image}
+            alt={`carousel ${index}`}
+            className={`carousel-image ${
+              index === currentImageIndex ? "visible" : "hidden"
+            }`}
+          />
+        ))}
+        <button className="carousel-button right" onClick={nextImage}>
+          ›
+        </button>
+      </div>
+
+
       <div className="features-section fade-in">
         <div className="feature-box">
           <i className="fas fa-thermometer-half"></i>
@@ -119,25 +141,6 @@ const Home = () => {
             relativa mientras conducen.
           </p>
         </div>
-      </div>
-
-      <div className="carousel fade-in">
-        <button className="carousel-button left" onClick={prevImage}>
-          ‹
-        </button>
-        {images.map((image, index) => (
-          <img
-            key={index}
-            src={image}
-            alt={`carousel ${index}`}
-            className={`carousel-image ${
-              index === currentImageIndex ? "visible" : "hidden"
-            }`}
-          />
-        ))}
-        <button className="carousel-button right" onClick={nextImage}>
-          ›
-        </button>
       </div>
 
       

@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'; // Import Firebase Auth functions
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'; 
 import { useCart } from './CartContext'; 
 import './Header.css';
 
 const Header = () => {
   const navigate = useNavigate();
   const { getCartItemCount } = useCart(); 
-  const [user, setUser] = useState(null); // State for the current user
+  const [user, setUser] = useState(null); 
 
   useEffect(() => {
-    const auth = getAuth(); // Get Firebase Auth instance
-    // Subscribe to auth state changes
+    const auth = getAuth(); 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user); // Update user state
+      setUser(user); 
     });
-    return () => unsubscribe(); // Clean up subscription
+    return () => unsubscribe(); 
   }, []);
 
   const handleLoginClick = (e) => {
@@ -29,13 +28,13 @@ const Header = () => {
   };
 
   const handleLogout = async () => {
-    const auth = getAuth(); // Get Firebase Auth instance
+    const auth = getAuth();
     try {
-      await signOut(auth); // Sign out with Firebase
-      setUser(null); // Clear user state
-      navigate('/'); // Redirect to home page
+      await signOut(auth); 
+      setUser(null); 
+      navigate('/'); 
     } catch (error) {
-      console.error('Error signing out:', error); // Handle errors
+      console.error('Error signing out:', error); 
     }
   };
 
@@ -56,7 +55,6 @@ const Header = () => {
           <Link to="/about">Nosotros</Link>
           <Link to="/contact">Contacto</Link>
           <Link to="/productos">Productos</Link>
-          {user && <Link to="/dashboard">Dashboard</Link>}
         </nav>
       </div>
       <div className="header-right">

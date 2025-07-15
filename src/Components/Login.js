@@ -21,30 +21,25 @@ const Login = () => {
   const [error, setError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   
-  // Captcha states
   const [captchaPassed, setCaptchaPassed] = useState(false);
   const [captchaQuestion, setCaptchaQuestion] = useState({ num1: 0, num2: 0, answer: 0 });
   const [captchaInput, setCaptchaInput] = useState("");
   const [captchaError, setCaptchaError] = useState("");
 
-  // Popup state
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  const [popupType, setPopupType] = useState(""); // 'success' or 'error'
+  const [popupType, setPopupType] = useState(""); 
 
-  // Show popup function
   const showPopupMessage = (message, type) => {
     setPopupMessage(message);
     setPopupType(type);
     setShowPopup(true);
     
-    // Auto-hide popup after 3 seconds
     setTimeout(() => {
       setShowPopup(false);
     }, 3000);
   };
 
-  // Generate captcha function
   const generateCaptcha = useCallback(() => {
     const num1 = Math.floor(Math.random() * 10) + 1;
     const num2 = Math.floor(Math.random() * 10) + 1;
@@ -54,7 +49,6 @@ const Login = () => {
     setCaptchaError("");
   }, []);
 
-  // Handle form display based on URL query params
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const action = params.get("action");
@@ -69,12 +63,10 @@ const Login = () => {
     return () => unsubscribe();
   }, [location.search, navigate]);
 
-  // Generate initial captcha
   useEffect(() => {
     generateCaptcha();
   }, [generateCaptcha]);
 
-  // Handle captcha verification
   const verifyCaptcha = () => {
     const userAnswer = parseInt(captchaInput);
     if (userAnswer === captchaQuestion.answer) {
@@ -88,20 +80,17 @@ const Login = () => {
     }
   };
 
-  // Handle captcha input change
   const handleCaptchaInputChange = (e) => {
     setCaptchaInput(e.target.value);
     setCaptchaError("");
   };
 
-  // Handle Enter key in captcha input
   const handleCaptchaKeyPress = (e) => {
     if (e.key === "Enter") {
       verifyCaptcha();
     }
   };
 
-  // Toggle between login and register forms
   const toggleForms = () => {
     setShowLoginForm(!showLoginForm);
     setError("");
@@ -110,7 +99,6 @@ const Login = () => {
     setPasswordError("");
   };
 
-  // Validate password complexity
   const validatePassword = (password) => {
     if (password.length < 6) {
       setPasswordError("La contraseña debe tener al menos 6 caracteres.");
@@ -119,7 +107,6 @@ const Login = () => {
     return true;
   };
 
-  // Handle login
   const handleLogin = async () => {
     if (!validatePassword(password)) return;
 
@@ -132,7 +119,6 @@ const Login = () => {
     }
   };
 
-  // Handle registration
   const handleRegister = async () => {
     if (!validatePassword(password)) return;
 
@@ -147,7 +133,6 @@ const Login = () => {
     }
   };
 
-  // Handle Google login
   const handleGoogleLogin = async () => {
     try {
       const provider = new GoogleAuthProvider();
@@ -161,7 +146,6 @@ const Login = () => {
 
   return (
     <div className="login-body">
-      {/* Popup Message */}
       {showPopup && (
         <div className={`popup-overlay ${showPopup ? 'show' : ''}`}>
           <div className={`popup-message ${popupType}`}>
@@ -178,7 +162,6 @@ const Login = () => {
 
       <div className="container-login fade-in">
         {!captchaPassed ? (
-          // Captcha Screen
           <div className="form-container fade-in">
             <h2>Verificación de Seguridad</h2>
             <p>Por favor, resuelve la siguiente operación matemática para continuar:</p>
@@ -222,7 +205,6 @@ const Login = () => {
             </div>
           </div>
         ) : (
-          // Login/Register Forms (only show after captcha is passed)
           <>
             {showLoginForm ? (
               <div id="loginForm" className="form-container fade-in">
